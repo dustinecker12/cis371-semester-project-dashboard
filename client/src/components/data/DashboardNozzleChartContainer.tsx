@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
+import DashboardNozzleChart from './DashboardNozzleChart';
 
-export default function DashboardChart(): JSX.Element {
+export default function DashboardNozzleChartContainer(): JSX.Element {
   return (
     <Box
       sx={{
@@ -13,11 +14,12 @@ export default function DashboardChart(): JSX.Element {
         textAlign="center"
         sx={{
           mt: '20px',
-          color: 'darkblue',
+          color: '#e0e0e0',
         }}
       >
-        This is a dashboard chart
+        Total Nozzle Errors - All Lines
       </Typography>
+      <DashboardNozzleChart />
     </Box>
   );
 }

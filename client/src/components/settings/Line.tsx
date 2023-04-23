@@ -65,7 +65,7 @@ export default function Line({ title, lineId }: LineProps) {
             a.title.localeCompare(b.title)
           );
           setMachines(tempMachines);
-          console.log('called getMachines from Lines');
+          console.log('getDocs called from Line');
         });
     } catch (error) {
       console.log(error);
@@ -161,7 +161,7 @@ export default function Line({ title, lineId }: LineProps) {
               height: '150px',
               width: '150px',
               margin: '10px',
-              backgroundColor: 'white',
+              backgroundColor: '#d0d1d5',
               borderRadius: '10px',
             }}
           >

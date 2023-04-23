@@ -12,6 +12,7 @@ export default function Machine({ title, numBeams, numHeads }: MachineProps) {
       <Typography
         sx={{
           textAlign: 'center',
+          color: '#525252',
         }}
       >
         {title}
@@ -19,6 +20,7 @@ export default function Machine({ title, numBeams, numHeads }: MachineProps) {
       <Typography
         sx={{
           textAlign: 'center',
+          color: '#525252',
         }}
       >
         {numBeams > 1 ? `${numBeams} Beams` : `${numBeams} Beam`}
@@ -26,6 +28,7 @@ export default function Machine({ title, numBeams, numHeads }: MachineProps) {
       <Typography
         sx={{
           textAlign: 'center',
+          color: '#525252',
         }}
       >
         {numHeads > 1 ? `${numHeads} Heads` : `${numHeads} Head`}

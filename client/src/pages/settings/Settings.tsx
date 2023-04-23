@@ -56,7 +56,6 @@ export default function Settings({ onSetLines }: SettingsProps): JSX.Element {
           tempLines.sort((a: Line, b: Line) => a.title.localeCompare(b.title));
           setLines(tempLines);
           onSetLines(tempLines);
-          console.log('called getLines() from Settings');
         });
     } catch (error) {
       console.log(error);
@@ -139,7 +138,7 @@ export default function Settings({ onSetLines }: SettingsProps): JSX.Element {
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              backgroundColor: 'grey',
+              backgroundColor: '#141b2d',
               margin: '5px',
               borderRadius: '10px',
             }}
@@ -149,7 +148,7 @@ export default function Settings({ onSetLines }: SettingsProps): JSX.Element {
                 height: '150px',
                 width: '150px',
                 margin: '10px',
-                backgroundColor: 'white',
+                backgroundColor: '#d0d1d5',
                 borderRadius: '10px',
               }}
             >
@@ -174,7 +173,12 @@ export default function Settings({ onSetLines }: SettingsProps): JSX.Element {
                 </Box>
               )}
 
-              <Typography variant="h4" m="10px 0 0 10px" textAlign="center">
+              <Typography
+                variant="h4"
+                m="10px 0 0 10px"
+                textAlign="center"
+                color="#525252"
+              >
                 {line.title}
               </Typography>
             </Box>

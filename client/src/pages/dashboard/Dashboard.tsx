@@ -1,6 +1,10 @@
 import { Box } from '@mui/material';
-import DataCard from '../../components/data/DataCard';
-import DashboardChart from '../../components/data/DashboardChart';
+import IdleCard from '../../components/data/IdleCard';
+import PanelCard from '../../components/data/PanelCard';
+import PlaceCard from '../../components/data/PlaceCard';
+import StopCard from '../../components/data/StopCard';
+import DashboardNozzleChartContainer from '../../components/data/DashboardNozzleChartContainer';
+import DashboardHeadChartContainer from '../../components/data/DashboardHeadChartContainer';
 
 export default function Dashboard(): JSX.Element {
   return (
@@ -12,7 +16,7 @@ export default function Dashboard(): JSX.Element {
         alignItems="center"
         height="100%"
       >
-        <h1>Display Dashboard</h1>
+        {/* <h1>Display Dashboard</h1> */}
 
         {/* Dashboard Layout Container */}
         <Box
@@ -33,11 +37,11 @@ export default function Dashboard(): JSX.Element {
             alignItems="center"
             justifyContent="center"
             sx={{
-              backgroundColor: 'white',
+              backgroundColor: '#141b2d',
               borderRadius: 2,
             }}
           >
-            <DataCard />
+            <IdleCard />
           </Box>
           <Box
             gridColumn="span 3"
@@ -47,11 +51,11 @@ export default function Dashboard(): JSX.Element {
             alignItems="center"
             justifyContent="center"
             sx={{
-              backgroundColor: 'white',
+              backgroundColor: '#141b2d',
               borderRadius: 2,
             }}
           >
-            <DataCard />
+            <PanelCard />
           </Box>
           <Box
             gridColumn="span 3"
@@ -61,11 +65,11 @@ export default function Dashboard(): JSX.Element {
             alignItems="center"
             justifyContent="center"
             sx={{
-              backgroundColor: 'white',
+              backgroundColor: '#141b2d',
               borderRadius: 2,
             }}
           >
-            <DataCard />
+            <PlaceCard />
           </Box>
           <Box
             gridColumn="span 3"
@@ -75,27 +79,41 @@ export default function Dashboard(): JSX.Element {
             alignItems="center"
             justifyContent="center"
             sx={{
-              backgroundColor: 'white',
+              backgroundColor: '#141b2d',
               borderRadius: 2,
             }}
           >
-            <DataCard />
+            <StopCard />
           </Box>
 
           {/* Row 3 */}
           <Box
-            gridColumn="span 12"
+            gridColumn="span 8"
             gridRow="span 9"
             width="100% / 4"
             display="flex"
             alignItems="center"
             justifyContent="center"
             sx={{
-              backgroundColor: 'white',
+              backgroundColor: '#141b2d',
               borderRadius: 2,
             }}
           >
-            <DashboardChart />
+            <DashboardHeadChartContainer />
+          </Box>
+          <Box
+            gridColumn="span 4"
+            gridRow="span 9"
+            width="100% / 4"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              backgroundColor: '#141b2d',
+              borderRadius: 2,
+            }}
+          >
+            <DashboardNozzleChartContainer />
           </Box>
         </Box>
       </Box>

@@ -1,4 +1,6 @@
-import { Box } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Box, Typography } from '@mui/material';
+import FeederChart from './FeederChart';
 import jsonToLogObj from '../../helperClasses/jsonToLogObj';
 
 type FeederInfoProps = {
@@ -22,19 +24,26 @@ export default function FeederInfo({
   machine,
   line,
 }: FeederInfoProps): JSX.Element {
-  const log = jsonToLogObj(line, machine);
+  const [log, setLog] = useState(jsonToLogObj(line, machine));
+
+  useEffect(() => {
+    setLog(jsonToLogObj(line, machine));
+  }, [line, machine]);
 
   return (
     <Box
       sx={{
-        height: '150px',
-        width: '150px',
+        height: '300px',
+        width: '450px',
         margin: '10px',
-        backgroundColor: 'white',
+        backgroundColor: '#d0d1d5',
         borderRadius: '10px',
       }}
     >
-      <h1>Feeder Info</h1>
+      <Typography variant="h6" textAlign="center" color="#525252">
+        Feeder Info
+      </Typography>
+      <FeederChart key={JSON.stringify(log)} data={log} />
     </Box>
   );
 }

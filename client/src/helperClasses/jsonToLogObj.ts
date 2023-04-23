@@ -141,8 +141,8 @@ export default function jsonToLogObj(line: Line, machine: Machine): Log {
       splitFeeders(data);
       splitNozzles(data);
     })
-    .catch((error) => {
-      console.error(error);
+    .catch(() => {
+      console.log('Unable to fetch logs!');
     });
 
   function splitInfo(data: any) {

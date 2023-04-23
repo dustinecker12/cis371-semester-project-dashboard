@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,7 +8,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
-import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -52,11 +50,6 @@ export default function ResponsiveAppBar(): JSX.Element {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-  };
-
-  const handleProfile = () => {
-    setAnchorElUser(null);
-    nav('/profile');
   };
 
   const handleSettings = () => {
@@ -114,28 +107,21 @@ export default function ResponsiveAppBar(): JSX.Element {
                 <LogoutIcon
                   sx={{
                     pr: '15px',
+                    color: '#6870fa',
                   }}
                 />
-                <Typography>Log in</Typography>
+                <Typography color="#525252">Log in</Typography>
               </MenuItem>
             ) : (
               <Box>
-                <MenuItem onClick={handleProfile}>
-                  <PersonIcon
-                    sx={{
-                      pr: '15px',
-                    }}
-                  />
-                  <Typography>Profile</Typography>
-                </MenuItem>
-
                 <MenuItem onClick={handleSettings}>
                   <SettingsIcon
                     sx={{
                       pr: '15px',
+                      color: '#6870fa',
                     }}
                   />
-                  <Typography>Settings</Typography>
+                  <Typography color="#525252">Settings</Typography>
                 </MenuItem>
 
                 <Divider />
@@ -143,9 +129,10 @@ export default function ResponsiveAppBar(): JSX.Element {
                   <LogoutIcon
                     sx={{
                       pr: '15px',
+                      color: '#6870fa',
                     }}
                   />
-                  <Typography>Log out</Typography>
+                  <Typography color="#525252">Log out</Typography>
                 </MenuItem>
               </Box>
             )}

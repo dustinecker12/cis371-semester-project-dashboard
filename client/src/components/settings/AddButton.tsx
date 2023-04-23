@@ -22,6 +22,8 @@ export default function AddButton({ type, onButtonClick }: AddButtonProps) {
             width: '150px',
             margin: '10px',
             borderRadius: '10px',
+            borderColor: '#6870fa',
+            color: '#6870fa',
           }}
         >
           <AddIcon
@@ -40,6 +42,8 @@ export default function AddButton({ type, onButtonClick }: AddButtonProps) {
             width: '75px',
             margin: '10px',
             borderRadius: '10px',
+            borderColor: '#6870fa',
+            color: '#6870fa',
           }}
         >
           <AddIcon

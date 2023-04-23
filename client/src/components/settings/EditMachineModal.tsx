@@ -79,7 +79,11 @@ export default function EditMachineModal({
   return (
     <div>
       <IconButton onClick={handleOpen}>
-        <EditIcon />
+        <EditIcon
+          sx={{
+            color: '#6870fa',
+          }}
+        />
       </IconButton>
       <Modal
         open={open}

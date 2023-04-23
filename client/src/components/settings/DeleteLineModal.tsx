@@ -59,7 +59,11 @@ export default function DeleteLineModal({
   return (
     <div>
       <IconButton onClick={handleOpen}>
-        <DeleteIcon />
+        <DeleteIcon
+          sx={{
+            color: '#6870fa',
+          }}
+        />
       </IconButton>
       <Modal
         open={open}

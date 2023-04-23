@@ -7,7 +7,6 @@ import Line from './pages/line/Line';
 import Settings from './pages/settings/Settings';
 import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
-import Profile from './pages/profile/Profile';
 
 type Line = {
   id: string;
@@ -35,7 +34,6 @@ export default function App(): JSX.Element {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
         </Routes>
       </main>
     </div>

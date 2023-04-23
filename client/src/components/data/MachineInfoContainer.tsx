@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import HeadInfo from './HeadInfo';
 import NozzleInfo from './NozzleInfo';
 import FeederInfo from './FeederInfo';
@@ -33,16 +33,16 @@ export default function MachineInfoContainer({
   line,
 }: MachineInfoContainerProps): JSX.Element {
   const [machines, setMachines] = useState<Machine[]>([]);
-  const [lineId, setLineId] = useState('');
+  const [lineId, setLineId] = useState(line.id);
 
   useEffect(() => {
     getMachines();
-  }, [lineId]);
+  }, [line]);
 
   async function getMachines() {
     const configColl: CollectionReference = collection(
       db,
-      `config/smt/lines/${line.id}/machines`
+      `config/smt/lines/${lineId}/machines`
     );
     let tempMachines: Array<Machine> = [];
 
@@ -65,7 +65,7 @@ export default function MachineInfoContainer({
             a.title.localeCompare(b.title)
           );
           setMachines(tempMachines);
-          console.log(`called getMachines from ${line.title}`);
+          console.log('getDocs called from MachineInfoContainer');
         });
     } catch (error) {
       console.log(error);
@@ -76,7 +76,11 @@ export default function MachineInfoContainer({
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        alignContent: 'center',
+        width: '100%',
+        height: '100%',
+        margin: 'auto',
       }}
     >
       {machines.map((m) => (
@@ -84,22 +88,22 @@ export default function MachineInfoContainer({
           key={m.id}
           sx={{
             display: 'flex',
-            flexDirection: 'row',
-            backgroundColor: 'grey',
+            flexDirection: 'column',
+            backgroundColor: '#141b2d',
             margin: '5px',
             borderRadius: '10px',
           }}
         >
           <Box
             sx={{
-              height: '150px',
-              width: '150px',
               margin: '10px',
-              backgroundColor: 'white',
+              backgroundColor: '#d0d1d5',
               borderRadius: '10px',
             }}
           >
-            <h1>{m.title}</h1>
+            <Typography variant="h4" textAlign="center" color="#525252">
+              {m.title}
+            </Typography>
           </Box>
 
           <HeadInfo line={line} machine={m} />

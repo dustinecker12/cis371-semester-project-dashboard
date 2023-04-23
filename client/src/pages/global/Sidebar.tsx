@@ -46,6 +46,10 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
     nav('/');
   };
 
+  const handleLineChange = (line: Line) => {
+    nav(`/lines/${line.id}`, { state: { line: line } });
+  };
+
   const getLines = async () => {
     const configColl: CollectionReference = collection(db, 'config/smt/lines');
     const tempLines: Array<Line> = [];
@@ -65,7 +69,6 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
         .then(() => {
           tempLines.sort((a: Line, b: Line) => a.title.localeCompare(b.title));
           setLines(tempLines);
-          console.log('called getLines() from Sidebar');
         });
     } catch (error) {
       console.log(error);
@@ -76,7 +79,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
     <Box
       sx={{
         '& .pro-sidebar-inner': {
-          background: `#e0e0e0 !important`,
+          background: `#d0d1d5 !important`,
         },
         '& .pro-icon-wrapper': {
           backgroundColor: 'transparent !important',
@@ -85,7 +88,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
           padding: '5px 35px 5px 20px !important',
         },
         '& .pro-inner-item:hover': {
-          color: '#868dfb !important',
+          color: '#6870fa !important',
         },
         '& .pro-menu-item.active': {
           color: '#6870fa !important',
@@ -96,7 +99,15 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
         <Menu iconShape="square">
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            icon={
+              isCollapsed ? (
+                <MenuOutlinedIcon
+                  sx={{
+                    color: '#525252',
+                  }}
+                />
+              ) : undefined
+            }
           >
             {!isCollapsed && (
               <Box
@@ -111,7 +122,11 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
                   style={{ padding: 15, maxHeight: 30 }}
                 />
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
+                  <MenuOutlinedIcon
+                    sx={{
+                      color: '#525252',
+                    }}
+                  />
                 </IconButton>
               </Box>
             )}
@@ -122,7 +137,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
             <Typography
               variant="h6"
               fontSize="16px"
-              color="grey"
+              color="#6870fa"
               sx={
                 isCollapsed
                   ? { textAlign: 'center', m: '15px auto 5px auto' }
@@ -134,7 +149,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
 
             <MenuItem
               style={{
-                color: 'grey',
+                color: '#525252',
               }}
               icon={<DashboardIcon />}
             >
@@ -146,7 +161,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
             <Typography
               variant="h6"
               fontSize="16px"
-              color="grey"
+              color="#6870fa"
               sx={
                 isCollapsed
                   ? { textAlign: 'center', m: '15px auto 5px auto' }
@@ -159,11 +174,10 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
             {lines.map((line, index) => (
               <MenuItem
                 key={index}
-                onClick={() => {
-                  nav(`/lines/${line.id}`, { state: { line: line } });
-                }}
+                onClick={() => handleLineChange(line)}
                 style={{
-                  color: 'grey',
+                  color: '#525252',
+                  backgroundColor: 'transparent',
                 }}
                 icon={<PrecisionManufacturingIcon />}
               >
@@ -175,7 +189,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
             <Typography
               variant="h6"
               fontSize="16px"
-              color="grey"
+              color="#6870fa"
               sx={
                 isCollapsed
                   ? { textAlign: 'center', m: '15px auto 5px auto' }
@@ -189,7 +203,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
               <Box>
                 <MenuItem
                   style={{
-                    color: 'grey',
+                    color: '#525252',
                   }}
                   icon={<SettingsIcon />}
                 >
@@ -198,7 +212,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
                 </MenuItem>
                 <MenuItem
                   style={{
-                    color: 'grey',
+                    color: '#525252',
                   }}
                   icon={<LogoutIcon />}
                 >
@@ -210,7 +224,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
               <Box>
                 <MenuItem
                   style={{
-                    color: 'grey',
+                    color: '#525252',
                   }}
                   icon={<SettingsIcon />}
                 >
@@ -220,7 +234,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
 
                 <MenuItem
                   style={{
-                    color: 'grey',
+                    color: '#525252',
                   }}
                   onClick={handleLogout}
                   icon={<LogoutIcon />}
