@@ -65,7 +65,6 @@ export default function Line({ title, lineId }: LineProps) {
             a.title.localeCompare(b.title)
           );
           setMachines(tempMachines);
-          console.log('getDocs called from Line');
         });
     } catch (error) {
       console.log(error);

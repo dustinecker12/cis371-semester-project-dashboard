@@ -133,7 +133,7 @@ export default function jsonToLogObj(line: Line, machine: Machine): Log {
     ],
   };
 
-  fetch(`/src/jsonLogs/${lineFolderName}/${machineFolderName}/Total.json`)
+  fetch(`../assets/jsonLogs/${lineFolderName}/${machineFolderName}/Total.json`)
     .then((response) => response.json())
     .then((data) => {
       splitInfo(data);
@@ -141,7 +141,7 @@ export default function jsonToLogObj(line: Line, machine: Machine): Log {
       splitFeeders(data);
       splitNozzles(data);
     })
-    .catch(() => {
+    .catch((err) => {
       console.log('Unable to fetch logs!');
     });
 

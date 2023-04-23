@@ -16,8 +16,6 @@ export default function Dashboard(): JSX.Element {
         alignItems="center"
         height="100%"
       >
-        {/* <h1>Display Dashboard</h1> */}
-
         {/* Dashboard Layout Container */}
         <Box
           display="grid"

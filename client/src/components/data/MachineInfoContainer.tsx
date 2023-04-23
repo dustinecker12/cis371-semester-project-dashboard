@@ -65,7 +65,6 @@ export default function MachineInfoContainer({
             a.title.localeCompare(b.title)
           );
           setMachines(tempMachines);
-          console.log('getDocs called from MachineInfoContainer');
         });
     } catch (error) {
       console.log(error);
