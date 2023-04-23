@@ -118,7 +118,7 @@ export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
               >
                 <img
                   alt="logo"
-                  src="/src/assets/logo.png"
+                  src="./assets/logo.png"
                   style={{ padding: 15, maxHeight: 30 }}
                 />
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
