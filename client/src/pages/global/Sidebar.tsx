@@ -1,161 +1,238 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import Collapse from '@mui/material/Collapse';
+import { useState, useEffect } from 'react';
+import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
+import { Box, IconButton, Typography } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import 'react-pro-sidebar/dist/css/styles.css';
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import MenuIcon from '@mui/icons-material/Menu';
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-import PieChartIcon from '@mui/icons-material/PieChart';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { auth, logout, db } from '../../../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import {
+  collection,
+  getDocs,
+  CollectionReference,
+  QuerySnapshot,
+  QueryDocumentSnapshot,
+} from 'firebase/firestore';
 
-import { Link } from 'react-router-dom';
+type SidebarProps = {
+  lineArr: Array<Line>;
+};
 
-export default function PermanentDrawerLeft() {
-  const [open, setOpen] = React.useState(true);
+type Line = {
+  id: string;
+  title: string;
+};
 
-  const drawerWidth = 240;
+export default function Sidebar({ lineArr }: SidebarProps): JSX.Element {
+  const [user, loading, error] = useAuthState(auth);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [lines, setLines] = useState<Line[]>([]);
+  const nav = useNavigate();
 
-  const handleClick = () => {
-    setOpen(!open);
+  useEffect(() => {
+    if (lineArr.length == 0) {
+      getLines();
+    } else {
+      setLines(lineArr);
+    }
+  }, [lineArr]);
+
+  const handleLogout = () => {
+    logout();
+    nav('/');
+  };
+
+  const getLines = async () => {
+    const configColl: CollectionReference = collection(db, 'config/smt/lines');
+    const tempLines: Array<Line> = [];
+
+    try {
+      await getDocs(configColl)
+        .then((qs: QuerySnapshot) => {
+          qs.forEach((qd: QueryDocumentSnapshot) => {
+            let line: Line = {
+              id: qd.id,
+              title: qd.data().title,
+            };
+
+            tempLines.push(line);
+          });
+        })
+        .then(() => {
+          tempLines.sort((a: Line, b: Line) => a.title.localeCompare(b.title));
+          setLines(tempLines);
+          console.log('called getLines() from Sidebar');
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <Toolbar />
-        <Divider />
-        <List>
-          <Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-              </ListItemButton>
-            </ListItem>
-          </Link>
-
-          <Link
-            to={'/reports'}
-            style={{ textDecoration: 'none', color: 'inherit' }}
+    <Box
+      sx={{
+        '& .pro-sidebar-inner': {
+          background: `#e0e0e0 !important`,
+        },
+        '& .pro-icon-wrapper': {
+          backgroundColor: 'transparent !important',
+        },
+        '& .pro-inner-item': {
+          padding: '5px 35px 5px 20px !important',
+        },
+        '& .pro-inner-item:hover': {
+          color: '#868dfb !important',
+        },
+        '& .pro-menu-item.active': {
+          color: '#6870fa !important',
+        },
+      }}
+    >
+      <ProSidebar collapsed={isCollapsed}>
+        <Menu iconShape="square">
+          <MenuItem
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
           >
-            <ListItemButton>
-              <ListItemIcon>
-                <PieChartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Reports" />
-            </ListItemButton>
-          </Link>
-
-          <ListItemButton onClick={handleClick}>
-            <ListItemIcon>
-              <MenuIcon />
-            </ListItemIcon>
-            <ListItemText primary="Lines" />
-            {/* <Link to={'/lines'}><ListItemText primary="Lines" /></Link> */}
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <Link
-                to={'/lines/1'}
-                style={{ textDecoration: 'none', color: 'inherit' }}
+            {!isCollapsed && (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                ml="10px"
               >
-                <ListItem disablePadding>
-                  <ListItemButton sx={{ pl: 4 }}>
-                    <ListItemIcon>
-                      <PrecisionManufacturingIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Line 1" />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
+                <img
+                  alt="logo"
+                  src="../src/assets/logo.png"
+                  style={{ padding: 15, maxHeight: 30 }}
+                />
+                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                  <MenuOutlinedIcon />
+                </IconButton>
+              </Box>
+            )}
+          </MenuItem>
 
-              <Link
-                to={'/lines/2'}
-                style={{ textDecoration: 'none', color: 'inherit' }}
+          <Box paddingLeft={isCollapsed ? undefined : '10%'}>
+            {/* Data */}
+            <Typography
+              variant="h6"
+              fontSize="16px"
+              color="grey"
+              sx={
+                isCollapsed
+                  ? { textAlign: 'center', m: '15px auto 5px auto' }
+                  : { m: '15px 0 5px 20px' }
+              }
+            >
+              Data
+            </Typography>
+
+            <MenuItem
+              style={{
+                color: 'grey',
+              }}
+              icon={<DashboardIcon />}
+            >
+              <Typography>{'Dashboard'}</Typography>
+              <Link to="/" />
+            </MenuItem>
+
+            {/* Lines */}
+            <Typography
+              variant="h6"
+              fontSize="16px"
+              color="grey"
+              sx={
+                isCollapsed
+                  ? { textAlign: 'center', m: '15px auto 5px auto' }
+                  : { m: '15px 0 5px 20px' }
+              }
+            >
+              Lines
+            </Typography>
+
+            {lines.map((line, index) => (
+              <MenuItem
+                key={index}
+                onClick={() => {
+                  nav(`/lines/${line.id}`, { state: { line: line } });
+                }}
+                style={{
+                  color: 'grey',
+                }}
+                icon={<PrecisionManufacturingIcon />}
               >
-                <ListItem disablePadding>
-                  <ListItemButton sx={{ pl: 4 }}>
-                    <ListItemIcon>
-                      <PrecisionManufacturingIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Line 2" />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
+                <Typography>{line.title}</Typography>
+              </MenuItem>
+            ))}
 
-              <Link
-                to={'/lines/4'}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-              >
-                <ListItem disablePadding>
-                  <ListItemButton sx={{ pl: 4 }}>
-                    <ListItemIcon>
-                      <PrecisionManufacturingIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Line 4" />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-            </List>
-          </Collapse>
-        </List>
+            {/* Account */}
+            <Typography
+              variant="h6"
+              fontSize="16px"
+              color="grey"
+              sx={
+                isCollapsed
+                  ? { textAlign: 'center', m: '15px auto 5px auto' }
+                  : { m: '15px 0 5px 20px' }
+              }
+            >
+              Account
+            </Typography>
 
-        <Divider />
+            {!user ? (
+              <Box>
+                <MenuItem
+                  style={{
+                    color: 'grey',
+                  }}
+                  icon={<SettingsIcon />}
+                >
+                  <Typography>{'Settings'}</Typography>
+                  <Link to="/login" />
+                </MenuItem>
+                <MenuItem
+                  style={{
+                    color: 'grey',
+                  }}
+                  icon={<LogoutIcon />}
+                >
+                  <Typography>{'Log in'}</Typography>
+                  <Link to="/login" />
+                </MenuItem>
+              </Box>
+            ) : (
+              <Box>
+                <MenuItem
+                  style={{
+                    color: 'grey',
+                  }}
+                  icon={<SettingsIcon />}
+                >
+                  <Typography>{'Settings'}</Typography>
+                  <Link to="/settings" />
+                </MenuItem>
 
-        <List>
-          <Link
-            to={'/settings'}
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Settings" />
-              </ListItemButton>
-            </ListItem>
-          </Link>
-
-          <Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText primary="Log out" />
-              </ListItemButton>
-            </ListItem>
-          </Link>
-        </List>
-      </Drawer>
+                <MenuItem
+                  style={{
+                    color: 'grey',
+                  }}
+                  onClick={handleLogout}
+                  icon={<LogoutIcon />}
+                >
+                  <Typography>{'Log out'}</Typography>
+                  <Link to="/" />
+                </MenuItem>
+              </Box>
+            )}
+          </Box>
+        </Menu>
+      </ProSidebar>
     </Box>
   );
 }
